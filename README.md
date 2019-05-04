@@ -16,11 +16,11 @@ Amazon review datasets:
 You can download the English (en) French (es) and German (de) embeddings this way:
 ```bash
 # English MUSE embeddings
-curl -Lo data/wiki.en.vec https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec
+curl -o data/wiki.en.vec https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.en.vec
 # French MUSE Wikipedia embeddings
-curl -Lo data/wiki.fr.vec https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec
+curl -o data/wiki.fr.vec https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.fr.vec
 # German MUSE Wikipedia embeddings
-curl -Lo data/wiki.de.vec https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.de.vec
+curl -o data/wiki.de.vec https://dl.fbaipublicfiles.com/arrival/vectors/wiki.multi.de.vec
 ```
 
 ## Train and test classifier
