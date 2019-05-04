@@ -26,7 +26,7 @@ curl -o data/wiki.de.vec https://dl.fbaipublicfiles.com/arrival/vectors/wiki.mul
 ## Train and test classifier
 This project includes testing all language pair to i.e En-En, En-Fr, En-De ,Fr-Fr, Fr-En, Fr-De, De-De, De-En, De-Fr:
 
-To evalaute the results simply run:
+To evaluate the results simply run:
 ```bash
 python crosslingual-classification.py
 ```
