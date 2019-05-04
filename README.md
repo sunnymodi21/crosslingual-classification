@@ -7,8 +7,6 @@ This project aim to create a sentiment classification model to be trained in one
 * [scikit-learn](http://scikit-learn.org/)
 * [nltk](https://www.nltk.org/)
 
-MUSE is available on CPU or GPU, in Python 2 or 3. Faiss is *optional* for GPU users - though Faiss-GPU will greatly speed up nearest neighbor search - and *highly recommended* for CPU users. Faiss can be installed using "conda install faiss-cpu -c pytorch" or "conda install faiss-gpu -c pytorch".
-
 ## Datasets
 Amazon review datasets:
 * Book review dataset in [*data/amazon-data*](https://github.com/sunnymodi21/crosslingual-classification/tree/master/data/amazon-dataset)
