@@ -10,8 +10,37 @@ from sklearn.calibration import CalibratedClassifierCV
 from unicodedata import normalize
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from collections import defaultdict
+
 path = 'data'
 language_set = {'english','french','german'}
+
+class TfidfEmbeddingVectorizer(object):
+    def __init__(self, word2vec):
+        self.word2vec = word2vec
+        self.word2weight = None
+        self.dim = len(next(iter(word2vec.values())))
+
+    def fit(self, X):
+        tfidf = TfidfVectorizer(analyzer=lambda x: x, min_df = 0.001)
+        tfidf.fit(X)
+        print ('Vocab Size' , len(tfidf.vocabulary_))
+        max_idf = max(tfidf.idf_)
+        self.word2weight = defaultdict(
+            lambda: max_idf,
+            [(w, tfidf.idf_[i]) for w, i in tfidf.vocabulary_.items()])
+
+        return self,tfidf.vocabulary_.items()
+
+    def transform(self, X):
+        np_ar = np.array([
+                np.mean([self.word2vec[w] * self.word2weight[w]
+                         for w in words if w in self.word2vec] or
+                        [np.zeros(self.dim)], axis=0)
+                for words in X
+            ])
+        return np_ar
+
 class CountEmbeddingVectorizer(object):
 	def __init__(self, word2vec):
 		self.word2vec = word2vec
@@ -150,7 +179,7 @@ def vectorize_train(w2v_lang, X_data, y_data, language):
 	
 	print('------------------------------------------------------------')
 	print('Training model on',language)
-	vectorizer = CountEmbeddingVectorizer(w2v_lang)
+	vectorizer = TfidfEmbeddingVectorizer(w2v_lang)
 	vect,vocab = vectorizer.fit(X_data)
 	unknown_words_list_en, percentage = words_not_w2vec(vocab,w2v_lang)
 	X_t = vectorizer.transform(X_data)
@@ -165,12 +194,15 @@ def vectorize_predict(w2v_lang, X_data, y_data, clf, language):
 	t0 = time.time()
 	print('------------------------------------------------------------')
 	print('Testing model on',language)
-	vectorizer_data = CountEmbeddingVectorizer(w2v_lang)
+	vectorizer_data = TfidfEmbeddingVectorizer(w2v_lang)
 	X ,vocab = vectorizer_data.fit(X_data)
 	X_vect_data = vectorizer_data.transform(X_data)
 	result = clf.predict(X_vect_data)
 	print ('Accuracy Score ', metrics.accuracy_score(y_data, result))
-	print ('Confusion matrix \n',metrics.confusion_matrix(y_data, result))
+	print ('F1 Score ',metrics.f1_score(y_data, result,average="binary", pos_label="negative"))
+	print ('Precision Score ',metrics.precision_score(y_data, result,average="binary", pos_label="negative"))
+	print ('Recall Score ',metrics.recall_score(y_data, result,average="binary", pos_label="negative"))
+	print ('Confusion matrix ',metrics.confusion_matrix(y_data, result))
 	unknown_words_list, percentage = words_not_w2vec(vocab, w2v_lang)
 	print('Number of words not in word2vec for testing:',len(unknown_words_list))
 
