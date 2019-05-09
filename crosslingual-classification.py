@@ -202,7 +202,7 @@ def vectorize_predict(w2v_lang, X_data, y_data, clf, language):
 	print ('F1 Score ',metrics.f1_score(y_data, result,average="binary", pos_label="negative"))
 	print ('Precision Score ',metrics.precision_score(y_data, result,average="binary", pos_label="negative"))
 	print ('Recall Score ',metrics.recall_score(y_data, result,average="binary", pos_label="negative"))
-	print ('Confusion matrix ',metrics.confusion_matrix(y_data, result))
+	print ('Confusion matrix \n',metrics.confusion_matrix(y_data, result))
 	unknown_words_list, percentage = words_not_w2vec(vocab, w2v_lang)
 	print('Number of words not in word2vec for testing:',len(unknown_words_list))
 
