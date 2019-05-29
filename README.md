@@ -1,6 +1,6 @@
 ## Cross Lingual Classification without translation or retraining
 
-This project aim to create a sentiment classification model to be trained in one language and use it without retraining or translation for a new language
+This project aims to create a sentiment classification model to be trained in one language and use it without retraining or translation for a new language
 
 ## Dependencies
 * Python 2/3 with [NumPy](http://www.numpy.org/)/[SciPy](https://www.scipy.org/)
